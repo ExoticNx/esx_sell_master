@@ -35,16 +35,8 @@ while true do
                       pos1 = GetEntityCoords(ped)
                       TriggerServerEvent('drugs:trigger')
                       Citizen.Wait(2850)
-                      if distance <= 2 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-                      TriggerServerEvent('drugs:sell')
+                      TriggerEvent('sell')
                       SetPedAsNoLongerNeeded(oldped)
-                      elseif distance > 2 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-                      TriggerServerEvent('sell_dis')
-                      SetPedAsNoLongerNeeded(oldped)
-                      else
-                      TriggerServerEvent('nodr')
-                      SetPedAsNoLongerNeeded(oldped)
-                  end
                 end
               end
             end
@@ -55,4 +47,17 @@ while true do
   until not success
   EndFindPed(handle)
 end
+end)
+
+RegisterNetEvent('sell')
+AddEventHandler('sell', function(tt)
+    local player = GetPlayerPed(-1)
+    local playerloc = GetEntityCoords(player, 0)
+    local distance = GetDistanceBetweenCoords(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+
+    if distance <= 2 then
+    	TriggerServerEvent('drugs:sell')
+    elseif distance > 2 then
+    	TriggerServerEvent('sell_dis')
+    end
 end)

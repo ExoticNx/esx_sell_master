@@ -96,6 +96,16 @@ end)
 					layout = "CenterLeft"
 			})
   			selling = false
+  			else
+				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+				TriggerClientEvent("pNotify:SendNotification", source, {
+				text = "You dont have any drugs",
+				type = "error",
+				progressBar = false,
+				queue = "lmao",
+				timeout = 2000,
+				layout = "CenterLeft"
+			})
   		end
 end)
 
@@ -120,20 +130,7 @@ RegisterNetEvent('sell_dis')
 AddEventHandler('sell_dis', function()
 		TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
 		TriggerClientEvent("pNotify:SendNotification", source, {
-		text = "You moved to far away",
-		type = "error",
-		progressBar = false,
-		queue = "lmao",
-		timeout = 2000,
-		layout = "CenterLeft"
-	})
-end)
-
-RegisterNetEvent('nodr')
-AddEventHandler('nodr', function()
-		TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
-		TriggerClientEvent("pNotify:SendNotification", source, {
-		text = "You dont have any drugs",
+		text = "You moved too far away",
 		type = "error",
 		progressBar = false,
 		queue = "lmao",
