@@ -50,7 +50,7 @@ end
 end)
 
 RegisterNetEvent('sell')
-AddEventHandler('sell', function(tt)
+AddEventHandler('sell', function()
     local player = GetPlayerPed(-1)
     local playerloc = GetEntityCoords(player, 0)
     local distance = GetDistanceBetweenCoords(pos1.x, pos1.y, pos1.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
