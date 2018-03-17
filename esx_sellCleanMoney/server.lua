@@ -44,7 +44,7 @@ end)
 					layout = "CenterLeft"
 			})
 			xPlayer.removeInventoryItem('coke_pooch', 1)
-  			xPlayer.addAccountMoney('black_money', paymentc)
+  			xPlayer.addMoney(paymentc)
   			selling = false
   		elseif weed >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -57,7 +57,7 @@ end)
 					layout = "CenterLeft"
 			})
   			xPlayer.removeInventoryItem('weed_pooch', 1)
-  			xPlayer.addAccountMoney('black_money', paymentw)
+  			xPlayer.addMoney(paymentw)
   			selling = false
   		  elseif meth >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -70,7 +70,7 @@ end)
 					layout = "CenterLeft"
 			})
   			xPlayer.removeInventoryItem('meth_pooch', 1)
-  			xPlayer.addAccountMoney('black_money', paymentm)
+  			xPlayer.addMoney(paymentm)
   			selling = false
   			elseif opium >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -83,7 +83,7 @@ end)
 					layout = "CenterLeft"
 			})
 			xPlayer.removeInventoryItem('opium_pooch', 1)
-  			xPlayer.addAccountMoney('black_money', paymento)
+  			xPlayer.addMoney(paymento)
   			selling = false
 			elseif selling == true and success == false then
 				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -119,9 +119,9 @@ AddEventHandler('pass_or_fail', function()
   		
   		local percent = math.random(1, 10)
 
-  		if percent == 8 or percent == 9 or percent == 10 then
+  		if percent == 8 or percent == 9 or percent == 10 or percent == 7 then
   			success = false
-  		elseif percent ~= 8 or percent ~= 9 or percent ~= 10 then
+  		else
   			success = true
   		end
   end)
@@ -137,4 +137,20 @@ AddEventHandler('sell_dis', function()
 		timeout = 2000,
 		layout = "CenterLeft"
 	})
+end)
+
+RegisterNetEvent('checkD')
+AddEventHandler('checkD', function()
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local meth = xPlayer.getInventoryItem('meth_pooch').count
+	local coke 	  = xPlayer.getInventoryItem('coke_pooch').count
+	local weed = xPlayer.getInventoryItem('weed_pooch').count
+	local opium = xPlayer.getInventoryItem('opium_pooch').count
+
+	if meth >= 1 or coke >= 1 or weed >= 1 or opium >= 1 then
+		TriggerClientEvent("checkR", source, true)
+	else
+		TriggerClientEvent("checkR", source, false)
+	end
+
 end)

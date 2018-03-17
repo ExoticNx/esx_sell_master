@@ -1,5 +1,7 @@
 ESX                 = nil
+local PlayerData    = {}
 local selling 	    = false
+local has 			= false
 
 Citizen.CreateThread(function()
   while ESX == nil do
@@ -7,6 +9,12 @@ Citizen.CreateThread(function()
     Citizen.Wait(0)
   end
 end)
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+  PlayerData = xPlayer
+end)
+
 
 currentped = nil
 Citizen.CreateThread(function()
@@ -28,7 +36,10 @@ while true do
             if pedType ~= 28 and IsPedAPlayer(ped) == false then
               currentped = pos
               if distance <= 2 and ped  ~= GetPlayerPed(-1) and ped ~= oldped then
-                if IsControlJustPressed(1, 74) then
+              	TriggerServerEvent('checkD')
+              	if has == true then
+              		drawTxt(0.90, 1.40, 1.0,1.0,0.4, "Press ~g~E ~w~to sell drugs", 255, 255, 255, 255)
+                	if IsControlJustPressed(1, 86) then
                       oldped = ped
                       SetEntityAsMissionEntity(ped)
                       TaskStandStill(ped, 9.0)
@@ -37,6 +48,7 @@ while true do
                       Citizen.Wait(2850)
                       TriggerEvent('sell')
                       SetPedAsNoLongerNeeded(oldped)
+                  end
                 end
               end
             end
@@ -61,3 +73,25 @@ AddEventHandler('sell', function()
     	TriggerServerEvent('sell_dis')
     end
 end)
+
+
+RegisterNetEvent('checkR')
+AddEventHandler('checkR', function(test)
+	has = test
+end)
+
+function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
+    SetTextFont(0)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    if(outline)then
+      SetTextOutline()
+    end
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x - width/2, y - height/2 + 0.005)
+end

@@ -44,7 +44,7 @@ end)
 					layout = "CenterLeft"
 			})
 			xPlayer.removeInventoryItem('coke_pooch', 1)
-  			xPlayer.addMoney(paymentc)
+  			xPlayer.addAccountMoney('black_money', paymentc)
   			selling = false
   		elseif weed >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -57,7 +57,7 @@ end)
 					layout = "CenterLeft"
 			})
   			xPlayer.removeInventoryItem('weed_pooch', 1)
-  			xPlayer.addMoney(paymentw)
+  			xPlayer.addAccountMoney('black_money', paymentw)
   			selling = false
   		  elseif meth >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -70,7 +70,7 @@ end)
 					layout = "CenterLeft"
 			})
   			xPlayer.removeInventoryItem('meth_pooch', 1)
-  			xPlayer.addMoney(paymentm)
+  			xPlayer.addAccountMoney('black_money', paymentm)
   			selling = false
   			elseif opium >= 1 and success == true then
   				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -83,7 +83,7 @@ end)
 					layout = "CenterLeft"
 			})
 			xPlayer.removeInventoryItem('opium_pooch', 1)
-  			xPlayer.addMoney(paymento)
+  			xPlayer.addAccountMoney('black_money', paymento)
   			selling = false
 			elseif selling == true and success == false then
 				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
@@ -137,4 +137,20 @@ AddEventHandler('sell_dis', function()
 		timeout = 2000,
 		layout = "CenterLeft"
 	})
+end)
+
+RegisterNetEvent('checkD')
+AddEventHandler('checkD', function()
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local meth = xPlayer.getInventoryItem('meth_pooch').count
+	local coke 	  = xPlayer.getInventoryItem('coke_pooch').count
+	local weed = xPlayer.getInventoryItem('weed_pooch').count
+	local opium = xPlayer.getInventoryItem('opium_pooch').count
+
+	if meth >= 1 or coke >= 1 or weed >= 1 or opium >= 1 then
+		TriggerClientEvent("checkR", source, true)
+	else
+		TriggerClientEvent("checkR", source, false)
+	end
+
 end)
