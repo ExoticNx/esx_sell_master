@@ -4,10 +4,6 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local selling = false
 	local success = false
-	local paymentc = math.random (500,1000)
-	local paymentw = math.random (150,300)
-	local paymentm = math.random (300,700)
-	local paymento = math.random (150,300)
   
   RegisterNetEvent('drugs:trigger')
   AddEventHandler('drugs:trigger', function()
@@ -32,6 +28,10 @@ end)
 	local coke 	  = xPlayer.getInventoryItem('coke_pooch').count
 	local weed = xPlayer.getInventoryItem('weed_pooch').count
 	local opium = xPlayer.getInventoryItem('opium_pooch').count
+	local paymentc = math.random (500,1000)
+	local paymentw = math.random (150,300)
+	local paymentm = math.random (300,700)
+	local paymento = math.random (150,300)
 
 		if coke >= 1 and success == true then
 			 	TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
