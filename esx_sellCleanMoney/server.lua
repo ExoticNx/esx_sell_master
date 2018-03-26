@@ -4,10 +4,12 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local selling = false
 	local success = false
+	local copscalled = false
+	local notintrested = false
   
   RegisterNetEvent('drugs:trigger')
   AddEventHandler('drugs:trigger', function()
-	TriggerEvent('currentlySelling')
+	selling = true
 	    if selling == true then
 			TriggerEvent('pass_or_fail')
   			TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 1)
@@ -20,6 +22,13 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
         	})
  	end
 end)
+
+RegisterServerEvent('fetchjob')
+AddEventHandler('fetchjob', function()
+    local xPlayer  = ESX.GetPlayerFromId(source)
+    TriggerClientEvent('getjob', source, xPlayer.job.name)
+end)
+
 
   RegisterNetEvent('drugs:sell')
   AddEventHandler('drugs:sell', function()
@@ -44,6 +53,7 @@ end)
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
+			TriggerClientEvent("animation", source)
 			xPlayer.removeInventoryItem('coke_pooch', 1)
   			xPlayer.addMoney(paymentc)
   			selling = false
@@ -57,6 +67,8 @@ end)
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
+			TriggerClientEvent("animation", source)
+			TriggerClientEvent("test", source)
   			xPlayer.removeInventoryItem('weed_pooch', 1)
   			xPlayer.addMoney(paymentw)
   			selling = false
@@ -70,6 +82,7 @@ end)
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
+			TriggerClientEvent("animation", source)
   			xPlayer.removeInventoryItem('meth_pooch', 1)
   			xPlayer.addMoney(paymentm)
   			selling = false
@@ -83,10 +96,11 @@ end)
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
+			TriggerClientEvent("animation", source)
 			xPlayer.removeInventoryItem('opium_pooch', 1)
   			xPlayer.addMoney(paymento)
   			selling = false
-			elseif selling == true and success == false then
+			elseif selling == true and success == false and notintrested == true then
 				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "They are not interested",
@@ -97,7 +111,7 @@ end)
 					layout = "CenterLeft"
 			})
   			selling = false
-  			else
+  			elseif meth < 1 and coke < 1 and weed < 1 and opium < 1 then
 				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 				text = "You dont have any drugs",
@@ -107,25 +121,38 @@ end)
 				timeout = 2000,
 				layout = "CenterLeft"
 			})
+			elseif copscalled == true and success == false then
+  				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+				TriggerClientEvent("pNotify:SendNotification", source, {
+					text = "They are calling the cops",
+					type = "error",
+					progressBar = false,
+					queue = "lmao",
+					timeout = 2000,
+					layout = "CenterLeft"
+			})
+			TriggerClientEvent("notifyc", source)
+  			selling = false
   		end
-end)
-
-RegisterNetEvent('currentlySelling')
-AddEventHandler('currentlySelling', function()
-	selling = true
 end)
 
 RegisterNetEvent('pass_or_fail')
 AddEventHandler('pass_or_fail', function()
   		
-  		local percent = math.random(1, 10)
+  		local percent = math.random(1, 11)
 
-  		if percent == 8 or percent == 9 or percent == 10 or percent == 7 then
+  		if percent == 7 or percent == 8 or percent == 9 then
   			success = false
-  		else
+  			notintrested = true
+  		elseif percent ~= 8 and percent ~= 9 and percent ~= 10 and percent ~= 7 then
   			success = true
+  			notintrested = false
+  		else
+  			notintrested = false
+  			success = false
+  			copscalled = true
   		end
-  end)
+end)
 
 RegisterNetEvent('sell_dis')
 AddEventHandler('sell_dis', function()
