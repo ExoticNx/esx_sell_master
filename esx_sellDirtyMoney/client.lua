@@ -90,21 +90,13 @@ end)
 RegisterNetEvent('notifyc')
 AddEventHandler('notifyc', function()
 
-    local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1), false))
-    local plyPos = GetEntityCoords(GetPlayerPed(-1),  true)
-    local streetName, crossing = Citizen.InvokeNative( 0x2EB41072B4C1E4C0, plyPos.x, plyPos.y, plyPos.z, Citizen.PointerValueInt(), Citizen.PointerValueInt() )
-    local streetName, crossing = GetStreetNameAtCoord(x, y, z)
-    streetName = GetStreetNameFromHashKey(streetName)
-  TriggerServerEvent('fetchjob')
+      local coords = GetEntityCoords(GetPlayerPed(-1))
 
-  if myJob == 'police' then
-    if crossing ~= nil then
-      crossing = GetStreetNameFromHashKey(crossing)
-      TriggerEvent('chatMessage', "^4911", {0, 153, 204}, "^7Someone was trying to sell me drugs on ^1" .. streetName .. " ^7and ^1" .. crossing .. " ^7please hurry")
-    else
-      TriggerEvent('chatMessage', "^4911", {0, 153, 204}, "^7Someone was trying to sell me drugs on ^1" .. streetName .. " ^7please hurry")
-    end
-  end
+      TriggerServerEvent('esx_phone:send', "police", 'Someone is selling me drugs' , true, {
+        x = coords.x,
+        y = coords.y,
+        z = coords.z
+      })
 end)
 
 RegisterNetEvent('animation')
